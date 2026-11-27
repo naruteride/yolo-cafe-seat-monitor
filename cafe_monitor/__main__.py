@@ -27,6 +27,7 @@ def options():
     parser.add_argument("--source", help="USB 카메라 번호, picamera2 또는 영상 파일")
     parser.add_argument("--model", help="기본 모델을 교체할 가중치 또는 NCNN 디렉터리")
     mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--check-model", action="store_true", help="카메라 없이 설정된 YOLO 모델로 한 장을 추론하고 종료")
     mode.add_argument("--demo", action="store_true", help="카메라 없이 합성 관측으로 4단계 시연")
     mode.add_argument("--preview", action="store_true", help="화면에 ROI와 탐지 결과 표시 (Q로 종료)")
     mode.add_argument("--calibrate", action="store_true", help="카메라 화면을 클릭해 설정 파일의 좌석 영역 보정")
@@ -43,6 +44,8 @@ def options():
         parser.error("--viewer-port 값은 0에서 65535 사이여야 합니다.")
     if args.calibrate and args.viewer:
         parser.error("좌석 보정은 --calibrate로 따로 실행하세요.")
+    if args.check_model and args.viewer:
+        parser.error("모델 점검은 --check-model로 따로 실행하세요.")
     return args
 
 
@@ -120,6 +123,28 @@ def capture_mode(args, source):
     return "live" if isinstance(source, int) or source.isdecimal() or source == "picamera2" else "replay"
 
 
+def load_detector(args, config):
+    path = (Path(args.model) if args.model else args.config.parent / config["model"]).resolve()
+    if not path.exists():
+        raise FileNotFoundError(f"YOLO 모델 경로를 찾을 수 없습니다. {path}")
+    try:
+        detector = YoloDetector(path, config["image_size"], config["confidence"])
+    except ModuleNotFoundError as exc:
+        if exc.name == "ultralytics":
+            raise RuntimeError(
+                f"실행 중인 Python({sys.executable})에 ultralytics 패키지가 없습니다. "
+                "프로젝트 폴더에서 .venv/bin/python -m pip install -r requirements-pi.txt 실행 후 "
+                ".venv/bin/python으로 모니터를 다시 시작하세요."
+            ) from exc
+        raise
+    except Exception as exc:
+        raise RuntimeError(f"YOLO 모델을 열 수 없습니다. {path} · {type(exc).__name__}: {exc}") from exc
+    if detector.missing_labels:
+        logging.warning("현재 가중치에 없는 클래스: %s", ", ".join(detector.missing_labels))
+    logging.info("활성 클래스: %s", ", ".join(dict.fromkeys(detector.labels.values())))
+    return detector
+
+
 def capture_session(args, config, monitor, source, mode, stop, viewer):
     from .display import annotate, jpeg_bytes, show_window
 
@@ -154,16 +179,7 @@ def capture_session(args, config, monitor, source, mode, stop, viewer):
             logging.info("%s", status)
             if viewer:
                 viewer.starting(status)
-            model_path = args.model or args.config.parent / config["model"]
-            try:
-                if not Path(model_path).exists():
-                    raise FileNotFoundError(model_path)
-                detector = YoloDetector(model_path, config["image_size"], config["confidence"])
-            except Exception as exc:
-                raise RuntimeError(f"영상 입력은 확인했습니다. YOLO 모델을 열 수 없습니다. {exc}") from exc
-            if detector.missing_labels:
-                logging.warning("현재 가중치에 없는 클래스: %s", ", ".join(detector.missing_labels))
-            logging.info("활성 클래스: %s", ", ".join(dict.fromkeys(detector.labels.values())))
+            detector = load_detector(args, config)
             use_crops = args.seat_crops or config.get("seat_crops", False)
             if mode == "live":
                 pending_frame = None  # Show a new observation after model loading.
@@ -239,6 +255,14 @@ def capture_session(args, config, monitor, source, mode, stop, viewer):
 
 def run(args):
     config, monitor = load_settings(args)
+    if args.check_model:
+        detector = load_detector(args, config)
+        import numpy as np
+
+        size = config["image_size"]
+        detector.detect(np.zeros((size, size, 3), dtype=np.uint8))
+        logging.info("YOLO 모델 점검 통과 · %d×%d 시험 영상 1장 추론 완료", size, size)
+        return
     source = resolve_source(args, config)
     if args.calibrate:
         import cv2

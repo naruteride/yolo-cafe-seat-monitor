@@ -49,6 +49,18 @@ python -m cafe_monitor --preview
 
 화면 없이 설치할 경우 `monitor.json`의 `seats`를 직접 편집할 수 있습니다. 테이블마다 고유한 `id`, 표시용 `label`, 다각형 `polygon`을 지정합니다. 좌상단은 `[0, 0]`, 우하단은 `[1, 1]`입니다. 영역에는 **앉은 사람의 몸통과 테이블 위 물건의 중심점**이 모두 들어가야 합니다. 겹친 영역에 있는 객체는 설정 순서상 첫 테이블에 배정됩니다. 설치 장소별 파일은 `--config 경로.json`으로 선택합니다. 설정 파일 안의 상대 경로는 그 파일 위치를 기준으로 합니다.
 
+### `No module named 'ultralytics'`가 표시될 때
+
+리본 카메라의 첫 프레임을 받은 뒤 이 메시지가 뜨면, 실행 중인 Python에서 YOLO 패키지를 찾을 수 없는 상태입니다. 모니터를 Ctrl+C로 종료하고 파이의 프로젝트 폴더에서 설치와 실행에 같은 가상환경을 사용하세요. `.venv/bin/python`이 없으면 위 설치 절차로 가상환경을 먼저 만듭니다.
+
+```sh
+.venv/bin/python -m pip install -r requirements-pi.txt
+.venv/bin/python -m cafe_monitor --check-model
+.venv/bin/python -m cafe_monitor --source picamera2 --viewer
+```
+
+`--check-model`은 설정된 모델로 시험 영상 한 장을 처리합니다. `YOLO 모델 점검 통과`가 표시되면 마지막 명령으로 리본 카메라 운영 화면을 엽니다.
+
 ## 실제 운영과 하드웨어
 
 ```sh
