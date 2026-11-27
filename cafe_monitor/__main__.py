@@ -1,13 +1,14 @@
 """Run with python -m cafe_monitor from the project directory."""
 
 import argparse
-from contextlib import ExitStack
+from contextlib import ExitStack, nullcontext
 from datetime import datetime, timezone
 import json
 import logging
 import os
 from pathlib import Path
 import signal
+import sys
 from threading import Event
 import time
 
@@ -29,6 +30,8 @@ def options():
     mode.add_argument("--demo", action="store_true", help="카메라 없이 합성 관측으로 4단계 시연")
     mode.add_argument("--preview", action="store_true", help="화면에 ROI와 탐지 결과 표시 (Q로 종료)")
     mode.add_argument("--calibrate", action="store_true", help="카메라 화면을 클릭해 설정 파일의 좌석 영역 보정")
+    parser.add_argument("--viewer", action="store_true", help="브라우저에서 카메라 영상과 탐지 결과 확인")
+    parser.add_argument("--viewer-port", type=int, default=8765, help="로컬 카메라 화면의 포트 (기본 8765)")
     parser.add_argument("--gpio", action="store_true", help="LED·능동 부저 사용")
     parser.add_argument("--seat-crops", action="store_true", help="작은 물건을 위해 테이블마다 잘라서 추론")
     parser.add_argument("--abandoned-seconds", type=float, help="장기 방치 기준 시간 재설정")
@@ -36,6 +39,10 @@ def options():
     args = parser.parse_args()
     if args.frames is not None and args.frames < 1:
         parser.error("--frames 값은 1 이상이어야 합니다.")
+    if not 0 <= args.viewer_port <= 65535:
+        parser.error("--viewer-port 값은 0에서 65535 사이여야 합니다.")
+    if args.calibrate and args.viewer:
+        parser.error("좌석 보정은 --calibrate로 따로 실행하세요.")
     return args
 
 
@@ -107,16 +114,138 @@ def demo_frame(elapsed, period, positions):
     return detections
 
 
+def capture_mode(args, source):
+    if args.demo:
+        return "demo"
+    return "live" if isinstance(source, int) or source.isdecimal() or source == "picamera2" else "replay"
+
+
+def capture_session(args, config, monitor, source, mode, stop, viewer):
+    from .display import annotate, jpeg_bytes, show_window
+
+    monitor.reset()
+    positions = []
+    pending_frame = None
+    with ExitStack() as stack:
+        publisher = stack.enter_context(Publisher(os.environ.get("MONITOR_ENDPOINT"), os.environ.get("MONITOR_TOKEN")))
+        if mode == "demo":
+            positions = demo_boxes(monitor)
+            period = 20.0 + monitor.abandoned_seconds + monitor.grace_seconds
+            logging.info("시연 모드 · 합성 좌석 관측 사용 · 장기 방치 기준 %g초", monitor.abandoned_seconds)
+        else:
+            stage = f"카메라 입력 {source} 열기" if mode == "live" else f"녹화 영상 {source} 열기"
+            if viewer:
+                viewer.starting(stage)
+            logging.info("%s", stage)
+            try:
+                camera = stack.enter_context(Camera(source, *config.get("capture_size", [640, 480])))
+                pending_frame = camera.read()
+            except EOFError as exc:
+                raise RuntimeError("입력 영상에 읽을 수 있는 프레임이 없습니다.") from exc
+            except Exception as exc:
+                hint = ""
+                if mode == "live":
+                    hint = " 장치 연결, 카메라 번호, 다른 프로그램의 카메라 사용 여부를 확인하세요."
+                    if sys.platform == "darwin":
+                        hint += " macOS 시스템 설정의 개인정보 보호 및 보안 > 카메라에서 실행 앱의 접근 권한을 확인하세요."
+                raise RuntimeError(f"{stage} 실패. {exc}{hint}") from exc
+            height, width = pending_frame.shape[:2]
+            status = f"입력 확인 ({width}×{height}) · YOLO 준비 중"
+            logging.info("%s", status)
+            if viewer:
+                viewer.starting(status)
+            model_path = args.model or args.config.parent / config["model"]
+            try:
+                if not Path(model_path).exists():
+                    raise FileNotFoundError(model_path)
+                detector = YoloDetector(model_path, config["image_size"], config["confidence"])
+            except Exception as exc:
+                raise RuntimeError(f"영상 입력은 확인했습니다. YOLO 모델을 열 수 없습니다. {exc}") from exc
+            if detector.missing_labels:
+                logging.warning("현재 가중치에 없는 클래스: %s", ", ".join(detector.missing_labels))
+            logging.info("활성 클래스: %s", ", ".join(dict.fromkeys(detector.labels.values())))
+            use_crops = args.seat_crops or config.get("seat_crops", False)
+            if mode == "live":
+                pending_frame = None  # Show a new observation after model loading.
+            if args.preview:
+                import cv2
+                stack.callback(cv2.destroyAllWindows)
+
+        indicators = stack.enter_context(Indicators(enabled=args.gpio))
+        started = time.monotonic()
+        last_capture = None
+        last_sample = None
+        media_start = None
+        next_image = 0
+        frames = 0
+        warmup = 0
+        previous = None
+        while not stop.is_set() and (args.frames is None or frames < args.frames):
+            if mode != "demo":
+                if pending_frame is None:
+                    try:
+                        frame = camera.read()
+                    except EOFError:
+                        break
+                else:
+                    frame, pending_frame = pending_frame, None
+                if mode == "replay" and (viewer or args.preview):
+                    if media_start is None:
+                        media_start = camera.media_seconds
+                    target = started + camera.media_seconds - media_start
+                    if stop.wait(max(0, target - time.monotonic())):
+                        break
+            now = time.monotonic()
+            observed_at = datetime.now(timezone.utc).isoformat(timespec="milliseconds")
+            if mode == "demo":
+                detections = demo_frame(now - started, period, positions)
+            elif use_crops:
+                detections = detector.detect_seats(frame, monitor.seats)
+            else:
+                detections = detector.detect(frame)
+            sample_time = camera.media_seconds if mode == "replay" else now
+            rows = monitor.update(detections, sample_time)
+            after_gap = last_sample is None or sample_time - last_sample > monitor.max_gap_seconds
+            warmup = 1 if after_gap else warmup + 1
+            ready = warmup >= monitor.confirm_frames
+            fps = 1 / max(0.001, now-last_capture) if last_capture is not None else 0
+            last_capture, last_sample = now, sample_time
+            if ready:
+                indicators.update(row["state"] for row in rows)
+                states = [(row["id"], row["state"], tuple(row["items"])) for row in rows]
+                if states != previous:
+                    logging.info(" | ".join(f"{row['label']} {row['state']} ({row['awaySeconds']}s)" for row in rows))
+                    previous = states
+                publisher.offer({"observedAt": observed_at, "mode": "live" if mode == "live" else "demo", "seats": rows})
+                if viewer and mode == "demo":
+                    viewer.update_seats(observed_at, rows)
+            else:
+                indicators.update([])
+            frames += 1
+            send_image = viewer and mode != "demo" and now >= next_image
+            if args.preview or send_image:
+                annotate(frame, monitor.seats, rows, detections, fps, ready)
+                if send_image:
+                    objects = [{"label": obj.label, "confidence": obj.confidence} for obj in detections]
+                    viewer.update_frame(jpeg_bytes(frame), observed_at, fps, objects,
+                                        rows if ready else None, captured_at=now)
+                    next_image = now + 0.2
+                if args.preview and not show_window(frame):
+                    stop.set()
+            if mode == "demo":
+                stop.wait(0.25)
+        logging.info("%d프레임 처리 후 종료했습니다.", frames)
+
+
 def run(args):
     config, monitor = load_settings(args)
     source = resolve_source(args, config)
-    dimensions = config.get("capture_size", [640, 480])
     if args.calibrate:
         import cv2
         from .display import calibrate
 
         with ExitStack() as stack:
-            camera = stack.enter_context(Camera(source, *dimensions))
+            camera = stack.enter_context(Camera(source, *config.get("capture_size", [640, 480])))
             stack.callback(cv2.destroyAllWindows)
             saved = calibrate(camera.read(), config, args.config)
             logging.info("좌석 영역을 저장했습니다." if saved else "보정을 취소했습니다.")
@@ -125,73 +254,28 @@ def run(args):
     stop = Event()
     for sig in (signal.SIGTERM, signal.SIGINT):
         signal.signal(sig, lambda *_: stop.set())
+    mode = capture_mode(args, source)
+    from .viewer import LocalViewer
 
-    with ExitStack() as stack:
-        publisher = Publisher(os.environ.get("MONITOR_ENDPOINT"), os.environ.get("MONITOR_TOKEN"))
-        if args.demo:
-            positions = demo_boxes(monitor)
-            period = 20.0 + monitor.abandoned_seconds + monitor.grace_seconds
-            logging.info("시연 모드 · 장기 방치 기준 %g초", monitor.abandoned_seconds)
-        else:
-            model_path = args.model or args.config.parent / config["model"]
-            if not Path(model_path).exists():
-                raise ValueError(f"모델 경로를 확인하세요: {model_path}")
-            detector = YoloDetector(model_path, config["image_size"], config["confidence"])
-            if detector.missing_labels:
-                logging.warning("현재 가중치에 없는 클래스: %s", ", ".join(detector.missing_labels))
-            logging.info("활성 클래스: %s", ", ".join(dict.fromkeys(detector.labels.values())))
-            camera = stack.enter_context(Camera(source, *dimensions))
-            use_crops = args.seat_crops or config.get("seat_crops", False)
-            if args.preview:
-                import cv2
-                from .display import preview
-                stack.callback(cv2.destroyAllWindows)
-        stack.enter_context(publisher)
-        indicators = stack.enter_context(Indicators(enabled=args.gpio))
-        started = time.monotonic()
-        last_capture = None
-        last_sample = None
-        frames = 0
-        warmup = 0
-        previous = None
-        while not stop.is_set() and (args.frames is None or frames < args.frames):
-            if not args.demo:
-                try:
-                    frame = camera.read()
-                except EOFError:
-                    break
-            now = time.monotonic()
-            observed_at = datetime.now(timezone.utc).isoformat(timespec="milliseconds")
-            if args.demo:
-                detections = demo_frame(now - started, period, positions)
-            elif use_crops:
-                detections = detector.detect_seats(frame, monitor.seats)
-            else:
-                detections = detector.detect(frame)
-            media_time = None if args.demo else camera.media_seconds
-            sample_time = now if media_time is None else media_time
-            rows = monitor.update(detections, sample_time)
-            after_gap = last_sample is None or sample_time - last_sample > monitor.max_gap_seconds
-            warmup = 1 if after_gap else warmup + 1
-            fps = 1 / max(0.001, now-last_capture) if last_capture is not None else 0
-            last_capture = now
-            last_sample = sample_time
-            if warmup >= monitor.confirm_frames:
-                indicators.update(row["state"] for row in rows)
-                states = [(row["id"], row["state"], tuple(row["items"])) for row in rows]
-                if states != previous:
-                    logging.info(" | ".join(f"{row['label']} {row['state']} ({row['awaySeconds']}s)" for row in rows))
-                    previous = states
-                replay = args.demo or media_time is not None
-                publisher.offer({"observedAt": observed_at, "mode": "demo" if replay else "live", "seats": rows})
-            else:
-                indicators.update([])
-            frames += 1
-            if args.preview and not preview(frame, monitor.seats, rows, detections, fps):
-                break
-            if args.demo:
-                stop.wait(0.25)
-        logging.info("%d프레임 처리 후 종료했습니다.", frames)
+    with LocalViewer(mode, args.viewer_port) if args.viewer else nullcontext() as viewer:
+        if viewer:
+            logging.info("카메라 운영 화면 %s · 브라우저에서 여세요. Ctrl+C로 종료합니다.", viewer.url)
+            if mode == "demo":
+                viewer.stopped("시연 모드에서는 카메라가 꺼져 있습니다.")
+        while not stop.is_set():
+            try:
+                capture_session(args, config, monitor, source, mode, stop, viewer)
+            except Exception as exc:
+                if not viewer or args.frames is not None:
+                    raise
+                logging.error("%s", exc)
+                viewer.error(f"{exc} · 5초 후 다시 연결합니다.")
+                stop.wait(5)
+                continue
+            if viewer and mode == "replay" and args.frames is None and not stop.is_set():
+                viewer.stopped("녹화 영상 재생이 끝났습니다.")
+                stop.wait()
+            break
 
 
 def main():

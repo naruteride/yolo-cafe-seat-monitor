@@ -33,6 +33,19 @@ button:focus-visible, select:focus-visible { outline: 3px solid #487942; outline
 h1, h2 { font-weight: 750; letter-spacing: -.065em; line-height: 1.22; }
 h1 { font-size: clamp(30px, 4.3vw, 48px); }
 .intro p { margin-top: 10px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+.camera { margin-bottom: 30px; }
+.camera [hidden], .camera[hidden] { display: none; }
+.camera-message, .camera-body { background: #fffef9; border: 1px solid var(--border); border-radius: 15px; }
+.camera-message { padding: 17px 20px; color: #46594b; line-height: 1.6; overflow-wrap: anywhere; }
+.camera-body { display: grid; grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr); overflow: hidden; }
+.camera-picture { background: #14241e; display: grid; place-items: center; }
+.camera-picture img { display: block; width: 100%; max-height: 500px; object-fit: contain; }
+.camera-info { min-width: 0; padding: 21px; }
+.camera-info h3 { margin: 0; font-size: 17px; letter-spacing: -.03em; }
+.camera-reading, #camera-empty { margin-top: 9px; font-size: 13px; color: var(--muted); line-height: 1.5; }
+.camera-objects { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 15px; padding: 0; list-style: none; }
+.camera-objects:empty { display: none; }
+.camera-object { padding: 5px 9px; border-radius: 6px; font-size: 14px; color: #315c51; background: #e7efe7; overflow-wrap: anywhere; }
 #refresh, select { background: #fffef9; border: 1px solid #cad2c6; border-radius: 8px; font-size: 14px; min-height: 40px; }
 #refresh { display: flex; align-items: center; flex: none; gap: 6px; padding: 0 14px; font-weight: 600; }
 #refresh:hover, select:hover { border-color: #7b937e; }
@@ -91,6 +104,8 @@ select { padding: 0 9px; }
 footer { padding: 15px 0 35px; }
 .sr-only { position: absolute; overflow: hidden; clip-path: inset(50%); white-space: nowrap; width: 1px; height: 1px; }
 @media (max-width: 760px) {
+  .camera-body { grid-template-columns: 1fr; }
+  .camera-info { padding: 15px; }
   .frame { width: min(100% - 36px, 640px); }
   .header-inner { min-height: 58px; }
   .intro { padding-top: 32px; }

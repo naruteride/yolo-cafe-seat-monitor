@@ -5,6 +5,7 @@
   "engines": { "node": "22.x" },
   "scripts": {
     "dev": "node dev.mjs",
+    "camera": "node dev.mjs --camera",
     "demo": "node dev.mjs --demo",
     "test": "node --test tests/*.test.mjs"
   }

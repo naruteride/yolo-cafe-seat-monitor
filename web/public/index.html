@@ -21,6 +21,22 @@
       <div><h1>카페 좌석 현황</h1><p id="observed">센서 정보를 불러오는 중입니다.</p></div>
       <button id="refresh" type="button"><span class="refresh-icon" aria-hidden="true">↻</span> 새로고침</button>
     </div>
+    <section id="camera-panel" class="camera" aria-labelledby="camera-title" hidden>
+      <div class="section-heading">
+        <h2 id="camera-title">카메라 영상</h2>
+        <span id="camera-state" class="connection" role="status">연결 확인 중</span>
+      </div>
+      <p id="camera-message" class="camera-message">첫 영상 프레임을 기다리고 있습니다.</p>
+      <div id="camera-body" class="camera-body" hidden>
+        <div id="camera-picture" class="camera-picture"></div>
+        <div class="camera-info">
+          <h3>현재 프레임의 인식 결과</h3>
+          <p id="camera-reading" class="camera-reading"></p>
+          <ul id="camera-objects" class="camera-objects" aria-label="물체 종류와 인식 신뢰도"></ul>
+          <p id="camera-empty" hidden>감지된 물체가 없습니다.</p>
+        </div>
+      </div>
+    </section>
     <section aria-label="좌석 상태 요약" class="summary">
       <div class="availability">
         <div class="metric-label"><span class="dot empty"></span>이용 가능</div>

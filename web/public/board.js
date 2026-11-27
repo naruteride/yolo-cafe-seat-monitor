@@ -1,7 +1,7 @@
 const get = id => document.getElementById(id)
 const states = { EMPTY: "이용 가능", OCCUPIED: "이용 중", AWAY: "일시 비움", ABANDONED: "장기 방치" }
 const itemNames = new Map(Object.entries({
-  backpack: "백팩", handbag: "핸드백", cup: "컵", laptop: "노트북", pencil: "연필",
+  person: "사람", backpack: "백팩", handbag: "핸드백", cup: "컵", laptop: "노트북", pencil: "연필",
   pen: "펜", book: "책", bottle: "병", "cell phone": "휴대전화",
 }))
 const dateFormat = new Intl.DateTimeFormat("ko-KR", {
@@ -111,3 +111,99 @@ refreshButton.addEventListener("click", refresh)
 document.addEventListener("visibilitychange", () => { if (!document.hidden) refresh() })
 setInterval(() => { if (!document.hidden) refresh() }, 5000)
 refresh()
+
+// Only the loopback camera and demo servers enable this section in the HTML they serve.
+if (document.documentElement.hasAttribute("data-local-camera")) startCameraPanel()
+
+function startCameraPanel() {
+  const panel = get("camera-panel")
+  const badge = get("camera-state")
+  const message = get("camera-message")
+  const body = get("camera-body")
+  const picture = get("camera-picture")
+  const objects = get("camera-objects")
+  let lastFrame = null
+  let imageUrl = null
+  let displayedAt = 0
+  panel.hidden = false
+
+  function showMessage(state, text, warning = false) {
+    badge.className = warning ? "connection warn" : "connection"
+    badge.textContent = state
+    body.hidden = true
+    picture.replaceChildren()
+    if (imageUrl) URL.revokeObjectURL(imageUrl)
+    imageUrl = null
+    lastFrame = null
+    message.textContent = text
+    message.hidden = false
+  }
+
+  async function showFrame(status) {
+    const key = `${status.observedAt}/${status.frameId}`
+    if (key === lastFrame) return
+    const response = await fetch(`/api/camera/frame.jpg?id=${encodeURIComponent(status.frameId)}`, {
+      cache: "no-store", signal: AbortSignal.timeout(4000),
+    })
+    // At high capture rates a frame can expire between the status and image requests.
+    if (response.status === 409) return
+    if (!response.ok) throw new Error("frame unavailable")
+    const blobUrl = URL.createObjectURL(await response.blob())
+    const image = new Image()
+    image.alt = "YOLO가 감지한 물체와 테이블 영역이 표시된 영상"
+    image.src = blobUrl
+    try {
+      await image.decode()
+    } catch (error) {
+      URL.revokeObjectURL(blobUrl)
+      throw error
+    }
+    picture.replaceChildren(image)
+    if (imageUrl) URL.revokeObjectURL(imageUrl)
+    imageUrl = blobUrl
+    lastFrame = key
+    displayedAt = performance.now()
+    badge.textContent = status.mode === "replay" ? "녹화 영상 재생 중" : "카메라 작동 중"
+    badge.className = "connection live"
+    const reading = dateFormat.format(new Date(status.observedAt))
+    get("camera-reading").textContent = `${reading} (한국시간) · ${status.fps.toFixed(1)} FPS`
+    objects.replaceChildren(...status.objects.map((object, index) => {
+      const label = itemNames.get(object.label) || object.label
+      return cell("li", "camera-object", `#${index + 1} ${label} ${Math.round(100 * object.confidence)}%`)
+    }))
+    get("camera-empty").hidden = status.objects.length > 0
+    message.hidden = true
+    body.hidden = false
+  }
+
+  async function poll() {
+    let delay = 1000
+    try {
+      if (document.hidden) return
+      const response = await fetch("/api/camera/status", { cache: "no-store", signal: AbortSignal.timeout(4000) })
+      if (!response.ok) throw new Error("camera unavailable")
+      const status = await response.json()
+      if (status.mode === "demo") {
+        showMessage("시연 모드 · 카메라 꺼짐", "시연을 Ctrl+C로 종료하고 카메라를 연결한 기기에서 npm --prefix web run camera를 실행하세요.")
+        delay = 5000
+      } else if (status.state === "starting") {
+        showMessage("준비 중", status.message || "카메라와 YOLO 모델을 준비하고 있습니다.")
+      } else if (status.state === "running" && status.frameId > 0 && status.observedAt) {
+        await showFrame(status)
+        if (imageUrl && performance.now() - displayedAt > 10000) {
+          showMessage("관측 대기", "새 영상 프레임을 기다리고 있습니다.", true)
+        }
+        delay = 250
+      } else {
+        const states = { error: "카메라 오류", stopped: "입력 종료", stale: "관측 대기" }
+        const label = status.stale ? "관측 대기" : states[status.state] || "관측 대기"
+        showMessage(label, status.message || "새 영상 프레임을 기다리고 있습니다.", true)
+      }
+    } catch {
+      showMessage("연결 확인 필요", "카메라 영상을 받을 수 없습니다. 장치에서 실행 중인 모니터의 연결 상태를 확인하세요.", true)
+    } finally {
+      setTimeout(poll, delay)
+    }
+  }
+  poll()
+}

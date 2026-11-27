@@ -22,27 +22,52 @@ def outline(cv2, frame, points, color, closed=True):
         cv2.line(frame, corners[-1], corners[0], color, 2)
 
 
-def preview(frame, seats, rows, detections, fps):
+def caption(cv2, frame, text, anchor, color):
+    """Keep labels readable at the image edges and over bright objects."""
+    height, width = frame.shape[:2]
+    (tw, th), baseline = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, 0.45, 1)
+    x = max(0, min(anchor[0], width - tw - 6))
+    y = max(th + 4, min(anchor[1], height - baseline - 2))
+    cv2.rectangle(frame, (x, y-th-3), (x+tw+5, y+baseline), (26, 29, 27), -1)
+    cv2.putText(frame, text, (x+2, y), cv2.FONT_HERSHEY_SIMPLEX, 0.45, color, 1, cv2.LINE_AA)
+
+
+def annotate(frame, seats, rows, detections, fps, ready=True):
+    """Draw the same inference result for the browser and the desktop window."""
     import cv2
 
     colors = {"EMPTY": (120, 200, 120), "OCCUPIED": (40, 215, 240),
               "AWAY": (18, 145, 245), "ABANDONED": (40, 45, 240)}
-    for obj in detections:
-        x1, y1, x2, y2 = obj.xyxy
-        start = pixels(frame, (x1, y1))
-        cv2.rectangle(frame, start, pixels(frame, (x2, y2)), (220, 180, 40), 1)
-        cv2.putText(frame, f"{obj.label} {obj.confidence:.2f}", start,
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.45, (220, 180, 40), 1)
     for seat, row in zip(seats, rows):
-        color = colors[row["state"]]
+        color = colors[row["state"]] if ready else (180, 180, 180)
         outline(cv2, frame, seat.polygon, color)
-        x, y = pixels(frame, seat.polygon[0])
-        cv2.putText(frame, f"{seat.id} {row['state']} {row['awaySeconds']}s", (x, max(y, 15)),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
-    cv2.putText(frame, f"{fps:.1f} FPS | Q to quit", (8, 22),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
-    cv2.imshow("Cafe seat monitor", frame)
+        status = f"{row['state']} {row['awaySeconds']}s" if ready else "Checking..."
+        caption(cv2, frame, f"{seat.id} {status}", pixels(frame, seat.polygon[0]), color)
+    for idx, obj in enumerate(detections, 1):
+        x1, y1, x2, y2 = obj.xyxy
+        corner = pixels(frame, (x1, y1))
+        ink = (255, 220, 80) if obj.label == "person" else (130, 245, 235)
+        cv2.rectangle(frame, corner, pixels(frame, (x2, y2)), ink, 2)
+        caption(cv2, frame, f"#{idx} {obj.label} {obj.confidence:.0%}", corner, ink)
+    caption(cv2, frame, f"{fps:.1f} FPS", (4, frame.shape[0] - 6), (240, 240, 240))
+    return frame
+
+
+def show_window(frame):
+    import cv2
+
+    window = "Cafe seat monitor (Q to quit)"
+    cv2.imshow(window, frame)
     return cv2.waitKey(1) & 0xff not in (ord("q"), 27)
+
+
+def jpeg_bytes(frame):
+    import cv2
+
+    ok, data = cv2.imencode(".jpg", frame, [cv2.IMWRITE_JPEG_QUALITY, 80])
+    if not ok:
+        raise RuntimeError("카메라 프레임을 JPEG 영상으로 변환하지 못했습니다.")
+    return data.tobytes()
 
 
 def calibrate(frame, config, path):

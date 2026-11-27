@@ -4,7 +4,7 @@ Description=Cafe seat monitor
 [Service]
 WorkingDirectory=%h/yolo-cafe-seat-monitor
 EnvironmentFile=-%h/.config/cafe-monitor.env
-ExecStart=%h/yolo-cafe-seat-monitor/.venv/bin/python -u -m cafe_monitor --gpio
+ExecStart=%h/yolo-cafe-seat-monitor/.venv/bin/python -u -m cafe_monitor --gpio --viewer
 Restart=on-failure
 RestartSec=5
 TimeoutStopSec=20
