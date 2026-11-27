@@ -1,5 +1,10 @@
 # Camera and GPIO bindings on Raspberry Pi OS are installed with apt.
 # Use a virtualenv created with the system Python and --system-site-packages.
+# PyPI's default Linux ARM64 torch build includes CUDA. Use the CPU wheels on the Pi.
+--find-links https://download.pytorch.org/whl/cpu/torch/
+--find-links https://download.pytorch.org/whl/cpu/torchvision/
+torch==2.15.0+cpu; platform_system == "Linux" and platform_machine == "aarch64"
+torchvision==0.29.2+cpu; platform_system == "Linux" and platform_machine == "aarch64"
 # Keep Bookworm's system Picamera2 extensions on the NumPy 1.x ABI.
 numpy>=1.24,<2; platform_system == "Linux" and python_version == "3.11"
 opencv-python>=4.7,<4.12; platform_system == "Linux" and python_version == "3.11"

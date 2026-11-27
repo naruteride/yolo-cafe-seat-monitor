@@ -61,6 +61,17 @@ python -m cafe_monitor --preview
 
 `--check-model`은 설정된 모델로 시험 영상 한 장을 처리합니다. `YOLO 모델 점검 통과`가 표시되면 마지막 명령으로 리본 카메라 운영 화면을 엽니다.
 
+### 모델을 읽은 뒤 `명령어가 잘못됨`으로 종료될 때
+
+종료 코드가 `132`이고 첫 추론의 오류 기록에 PyTorch의 `_conv_forward`가 나오면 합성곱 연산 중에 프로세스가 종료된 것입니다. 파이 4에서 PyTorch 버전에 `+cu132` 등 CUDA 표시가 있으면 프로젝트 폴더에서 CPU 전용 패키지로 교체한 뒤 같은 모델로 한 장을 추론해 확인하세요. 이 설치는 한 번만 실행합니다. [PyTorch CPU 패키지](https://download.pytorch.org/whl/cpu/torch/) · [torchvision CPU 패키지](https://download.pytorch.org/whl/cpu/torchvision/)
+
+```sh
+.venv/bin/python -m pip install --only-binary=:all: --index-url https://download.pytorch.org/whl/cpu 'torch==2.15.0+cpu' 'torchvision==0.29.2+cpu'
+.venv/bin/python -X faulthandler -m cafe_monitor --check-model
+```
+
+점검이 통과하면 `.venv/bin/python -m cafe_monitor --source picamera2 --viewer`로 리본 카메라 운영 화면을 시작합니다.
+
 ## 실제 운영과 하드웨어
 
 ```sh
