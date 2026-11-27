@@ -1,0 +1,11 @@
+{
+  "name": "cafe-seat-board",
+  "private": true,
+  "type": "module",
+  "engines": { "node": "22.x" },
+  "scripts": {
+    "dev": "node dev.mjs",
+    "demo": "node dev.mjs --demo",
+    "test": "node --test tests/*.test.mjs"
+  }
+}

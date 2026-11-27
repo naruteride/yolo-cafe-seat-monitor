@@ -1,0 +1,23 @@
+{
+  "model": "models/cafe-yoloe26n.pt",
+  "source": 0,
+  "capture_size": [640, 480],
+  "seat_crops": false,
+  "image_size": 512,
+  "confidence": 0.35,
+  "confirm_frames": 3,
+  "grace_seconds": 2,
+  "abandoned_seconds": 600,
+  "seats": [
+    {
+      "id": "table-1",
+      "label": "1번 테이블",
+      "polygon": [[0.05, 0.25], [0.48, 0.25], [0.48, 0.85], [0.05, 0.85]]
+    },
+    {
+      "id": "table-2",
+      "label": "2번 테이블",
+      "polygon": [[0.52, 0.25], [0.95, 0.25], [0.95, 0.85], [0.52, 0.85]]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+[Unit]
+Description=Cafe seat monitor
+
+[Service]
+WorkingDirectory=%h/yolo-cafe-seat-monitor
+EnvironmentFile=-%h/.config/cafe-monitor.env
+ExecStart=%h/yolo-cafe-seat-monitor/.venv/bin/python -u -m cafe_monitor --gpio
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=20
+
+[Install]
+WantedBy=default.target

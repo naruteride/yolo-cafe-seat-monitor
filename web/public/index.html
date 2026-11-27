@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173e35">
+  <title>자리봄 · 카페 좌석 현황</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/board.css">
+  <script type="module" src="/board.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="frame header-inner">
+      <span class="brand"><span class="brand-symbol" aria-hidden="true"></span>자리봄</span>
+      <span id="connection" class="connection" role="status">연결 확인 중</span>
+    </div>
+  </header>
+  <main class="frame">
+    <div class="intro">
+      <div><h1>카페 좌석 현황</h1><p id="observed">센서 정보를 불러오는 중입니다.</p></div>
+      <button id="refresh" type="button"><span class="refresh-icon" aria-hidden="true">↻</span> 새로고침</button>
+    </div>
+    <section aria-label="좌석 상태 요약" class="summary">
+      <div class="availability">
+        <div class="metric-label"><span class="dot empty"></span>이용 가능</div>
+        <p class="primary-count"><strong id="count-empty">—</strong><span>석</span></p>
+        <span class="capacity" id="capacity">전체 좌석 확인 중</span>
+        <div class="table-art" aria-hidden="true"><i></i><b></b><i></i></div>
+      </div>
+      <div class="other">
+        <div class="metric occupied"><span class="metric-label"><i class="dot occupied"></i>이용 중</span><p><strong id="count-occupied">—</strong><span>석</span></p></div>
+        <div class="metric away"><span class="metric-label"><i class="dot away"></i>일시 비움</span><p><strong id="count-away">—</strong><span>석</span></p></div>
+        <div class="metric abandoned"><span class="metric-label"><i class="dot abandoned"></i>장기 방치</span><p><strong id="count-abandoned">—</strong><span>석</span></p></div>
+      </div>
+    </section>
+    <section class="details" aria-labelledby="details-title">
+      <div class="section-heading">
+        <h2 id="details-title">좌석별 현황</h2>
+        <label><span class="sr-only">좌석 상태 필터</span>
+          <select id="filter">
+            <option value="">모든 상태</option><option value="EMPTY">이용 가능</option>
+            <option value="OCCUPIED">이용 중</option><option value="AWAY">일시 비움</option>
+            <option value="ABANDONED">장기 방치</option>
+          </select>
+        </label>
+      </div>
+      <div class="details-panel">
+        <div class="list-head" aria-hidden="true"><span>좌석</span><span>상태</span><span>감지된 소지품</span><span>비움 시간</span></div>
+        <ul id="seat-list" aria-label="좌석 목록"></ul>
+        <div class="notice" id="notice" role="status">
+          <span class="seat-symbol" aria-hidden="true"></span>
+          <strong id="notice-title">좌석 정보를 불러오는 중</strong>
+          <p id="notice-text">잠시만 기다려 주세요.</p>
+        </div>
+      </div>
+    </section>
+    <footer>좌석 상태는 5초마다 갱신됩니다. 연필처럼 작은 물건이 남은 자리는 이용 가능으로 표시될 수 있습니다.</footer>
+    <noscript><p>실시간 현황을 보려면 브라우저에서 JavaScript를 활성화하세요.</p></noscript>
+  </main>
+</body>
+</html>

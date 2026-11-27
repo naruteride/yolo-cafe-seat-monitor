@@ -1,0 +1,6 @@
+# Camera and GPIO bindings on Raspberry Pi OS are installed with apt.
+# Use a virtualenv created with the system Python and --system-site-packages.
+# Keep Bookworm's system Picamera2 extensions on the NumPy 1.x ABI.
+numpy>=1.24,<2; platform_system == "Linux" and python_version == "3.11"
+opencv-python>=4.7,<4.12; platform_system == "Linux" and python_version == "3.11"
+ultralytics==8.4.220

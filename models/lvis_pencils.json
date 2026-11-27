@@ -1,0 +1,714 @@
+{
+  "description": "LVIS wood/graphite pencil category 782. Images with incomplete pencil annotations or target-class crowds are excluded. The six other classes use the original COCO detection boxes. COCO image 537270 already belongs to the supplied train split; its annotations are enriched in place. All other additional photographs retain LVIS train/val assignments. The original supplied photos may contain unannotated pencils.",
+  "annotation_license": "https://creativecommons.org/licenses/by/4.0/",
+  "lvis_train": "https://dl.fbaipublicfiles.com/LVIS/lvis_v1_train.json.zip",
+  "lvis_val": "https://dl.fbaipublicfiles.com/LVIS/lvis_v1_val.json.zip",
+  "coco_instances": "https://s3.amazonaws.com/images.cocodataset.org/annotations/annotations_trainval2017.zip",
+  "photo_licenses": {
+    "CC BY 2.0": "https://creativecommons.org/licenses/by/2.0/",
+    "CC BY-SA 2.0": "https://creativecommons.org/licenses/by-sa/2.0/"
+  },
+  "classes": [
+    "person",
+    "backpack",
+    "handbag",
+    "cup",
+    "laptop",
+    "cell phone",
+    "pencil"
+  ],
+  "images": [
+    {
+      "file": "000000019544.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000019544.jpg",
+      "photographer_page": "https://www.flickr.com/photos/dennis/1579578688/",
+      "annotations": [
+        "3 0.29779687 0.50401042 0.05815625 0.14172917",
+        "3 0.87725781 0.25720833 0.03801563 0.06441667",
+        "4 0.87538281 0.48601042 0.24923437 0.43189583",
+        "4 0.26490625 0.36183333 0.21737500 0.30850000",
+        "5 0.06052344 0.42069792 0.04664062 0.08027083",
+        "6 0.49421875 0.14454167 0.01315625 0.05304167",
+        "6 0.48300781 0.13613542 0.00598437 0.07052083",
+        "6 0.45251563 0.12822917 0.00909375 0.02341667",
+        "6 0.45500781 0.15054167 0.01182812 0.02308333"
+      ],
+      "photographer": "dennis",
+      "title": "my desk"
+    },
+    {
+      "file": "000000039663.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY-SA 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000039663.jpg",
+      "photographer_page": "https://www.flickr.com/photos/bharathkishore/3598027423/",
+      "annotations": [
+        "1 0.21440625 0.64947917 0.42209375 0.68162500",
+        "5 0.72885156 0.45243750 0.07617188 0.19279167",
+        "4 0.60742188 0.72396875 0.32421875 0.29947917",
+        "6 0.58880469 0.22141667 0.01117187 0.16558333",
+        "6 0.55040625 0.21559375 0.01515625 0.15902083",
+        "6 0.60700000 0.22108333 0.01356250 0.16291667"
+      ],
+      "photographer": "Bharath Kishore",
+      "title": "What's in my bag??"
+    },
+    {
+      "file": "000000069000.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000069000.jpg",
+      "photographer_page": "https://www.flickr.com/photo.gne?id=7415536492",
+      "annotations": [
+        "5 0.31918750 0.39556250 0.01993750 0.03133333",
+        "0 0.42778125 0.61832292 0.42293750 0.76335417",
+        "0 0.60775781 0.58864583 0.31985938 0.81283333",
+        "0 0.80911719 0.14527083 0.14189062 0.27929167",
+        "1 0.11252344 0.71745833 0.22407812 0.29195833",
+        "5 0.78506250 0.13895833 0.01168750 0.01300000",
+        "6 0.38942969 0.88931250 0.10095313 0.07720833"
+      ]
+    },
+    {
+      "file": "000000096067.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY-SA 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000096067.jpg",
+      "photographer_page": "https://www.flickr.com/photos/brenneman/5137509681/",
+      "annotations": [
+        "0 0.24364583 0.49103125 0.48729167 0.71300000",
+        "6 0.68163542 0.80707812 0.14418750 0.38584375"
+      ],
+      "photographer": "various brennemans",
+      "title": "sewing triptych III"
+    },
+    {
+      "file": "000000106363.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY-SA 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000106363.jpg",
+      "photographer_page": "https://www.flickr.com/photo.gne?id=4404176401",
+      "annotations": [
+        "6 0.28775781 0.47263542 0.04610937 0.01502083",
+        "6 0.58243750 0.19059375 0.03175000 0.00793750"
+      ]
+    },
+    {
+      "file": "000000122116.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000122116.jpg",
+      "photographer_page": "https://www.flickr.com/photos/zombieite/5710644562/",
+      "annotations": [
+        "6 0.15228906 0.29725000 0.30223437 0.12154167"
+      ],
+      "photographer": "zombieite",
+      "title": "Nerf dart upgrade"
+    },
+    {
+      "file": "000000122678.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY-SA 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000122678.jpg",
+      "photographer_page": "https://www.flickr.com/photos/us7thfleet/7015813153/",
+      "annotations": [
+        "0 0.44724219 0.53220657 0.89148437 0.91234742",
+        "6 0.76454687 0.34061033 0.25031250 0.18539906"
+      ],
+      "photographer": "Commander, U.S. 7th Fleet",
+      "title": "120323-N-JN784-023.jpg"
+    },
+    {
+      "file": "000000128826.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000128826.jpg",
+      "photographer_page": "https://www.flickr.com/photos/mattphotos/24337880/",
+      "annotations": [
+        "0 0.18582000 0.54484000 0.33464000 0.51570667",
+        "4 0.50983000 0.61760000 0.23090000 0.17978667",
+        "2 0.20393000 0.89064000 0.40786000 0.20000000",
+        "3 0.57065000 0.65184000 0.02734000 0.05626667",
+        "0 0.83133000 0.67816000 0.29802000 0.63232000",
+        "6 0.76512000 0.61929333 0.03988000 0.07901333"
+      ],
+      "photographer": "mcaretaker",
+      "title": "43 Bedford 2005 017"
+    },
+    {
+      "file": "000000213054.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000213054.jpg",
+      "photographer_page": "https://www.flickr.com/photos/caitlinator/2570927375/",
+      "annotations": [
+        "0 0.50075000 0.49325826 0.99850000 0.98651652",
+        "6 0.66446000 0.48810811 0.07056000 0.33825826",
+        "6 0.63994000 0.56552553 0.05688000 0.15789790",
+        "6 0.64886000 0.88226727 0.07952000 0.23546547",
+        "6 0.73568000 0.56849850 0.07908000 0.20570571"
+      ],
+      "photographer": "Caitlinator",
+      "title": "Scissors"
+    },
+    {
+      "file": "000000215808.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000215808.jpg",
+      "photographer_page": "https://www.flickr.com/photos/dichohecho/3775660364/",
+      "annotations": [
+        "6 0.48881250 0.06653125 0.13493750 0.12918750",
+        "6 0.46187500 0.04695833 0.10381250 0.09391667"
+      ],
+      "photographer": "dichohecho",
+      "title": "Coffee & walnut cake"
+    },
+    {
+      "file": "000000271117.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000271117.jpg",
+      "photographer_page": "https://www.flickr.com/photos/bigberto/3800071094/",
+      "annotations": [
+        "5 0.52847000 0.85638667 0.06882000 0.07490667",
+        "5 0.59497000 0.82981333 0.13058000 0.05589333",
+        "3 0.24054000 0.22956000 0.08196000 0.10232000",
+        "3 0.31657000 0.25986667 0.04362000 0.04250667",
+        "3 0.36186000 0.26085333 0.04432000 0.03573333",
+        "3 0.13780000 0.71284000 0.05776000 0.12264000",
+        "6 0.16284000 0.62930667 0.02680000 0.06549333"
+      ],
+      "photographer": "~MVI~ (warped)",
+      "title": "Work Station (Nagoya, Japan)"
+    },
+    {
+      "file": "000000289392.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY-SA 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000289392.jpg",
+      "photographer_page": "https://www.flickr.com/photos/mikecogh/9587583192/",
+      "annotations": [
+        "0 0.34252344 0.41520599 0.26692187 0.50782772",
+        "0 0.15528125 0.29932584 0.13843750 0.27131086",
+        "4 0.51938281 0.41165730 0.14045312 0.12788390",
+        "4 0.97567188 0.51495318 0.04865625 0.04058052",
+        "2 0.14899219 0.60524345 0.14089062 0.16284644",
+        "3 0.63692187 0.38807116 0.03665625 0.03329588",
+        "5 0.53260156 0.47801498 0.05145313 0.01996255",
+        "6 0.75736719 0.51310861 0.01073438 0.02426966"
+      ],
+      "photographer": "mikecogh",
+      "title": "Stephan Has a Quiet Moment"
+    },
+    {
+      "file": "000000295472.jpg",
+      "split": "val",
+      "lvis_split": "val",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000295472.jpg",
+      "photographer_page": "https://www.flickr.com/photos/ubrayj02/5945674630/",
+      "annotations": [
+        "4 0.19977178 0.57325000 0.22850622 0.09028125",
+        "0 0.39341286 0.49026562 0.37097510 0.22278125",
+        "0 0.71772822 0.50900781 0.47848548 0.16667188",
+        "0 0.07202282 0.51628906 0.14404564 0.17495312",
+        "0 0.18391079 0.47435156 0.10470954 0.11373438",
+        "0 0.68709544 0.50455469 0.08846473 0.16842188",
+        "0 0.79258299 0.48914062 0.08923237 0.11803125",
+        "0 0.53871369 0.49232031 0.09236515 0.06045312",
+        "0 0.01649378 0.48040625 0.03261411 0.06743750",
+        "4 0.64411826 0.57061719 0.15151452 0.05107812",
+        "4 0.95476141 0.56616406 0.08537344 0.03714062",
+        "6 0.11366183 0.63397656 0.06217842 0.00904688"
+      ],
+      "photographer": "ubrayj02",
+      "title": "Stephen Box checks Jay Slater's laptop at the July BPIT in City Hall"
+    },
+    {
+      "file": "000000295970.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000295970.jpg",
+      "photographer_page": "https://www.flickr.com/photos/visnup/2366161067/",
+      "annotations": [
+        "3 0.08184375 0.55847656 0.15864583 0.25992188",
+        "6 0.70590625 0.54399219 0.04289583 0.06998438",
+        "6 0.68237500 0.55344531 0.03987500 0.03073438"
+      ],
+      "photographer": "visnup",
+      "title": "my brain is rotting"
+    },
+    {
+      "file": "000000325992.jpg",
+      "split": "val",
+      "lvis_split": "val",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000325992.jpg",
+      "photographer_page": "https://www.flickr.com/photo.gne?id=3766609982",
+      "annotations": [
+        "5 0.23458594 0.55611765 0.12426563 0.17962353",
+        "4 0.64176563 0.54718824 0.71646875 0.86967059",
+        "5 0.01771875 0.86845882 0.03246875 0.08312941",
+        "6 0.10071875 0.83783529 0.19971875 0.09421176"
+      ]
+    },
+    {
+      "file": "000000331409.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY-SA 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000331409.jpg",
+      "photographer_page": "https://www.flickr.com/photos/dionhinchcliffe/3802838842/",
+      "annotations": [
+        "0 0.22837000 0.76068000 0.45338000 0.47416000",
+        "0 0.26545000 0.55917333 0.30842000 0.75056000",
+        "0 0.79821000 0.44448000 0.40358000 0.55488000",
+        "0 0.94803000 0.10718667 0.10282000 0.21122667",
+        "0 0.76429000 0.09404000 0.14450000 0.18562667",
+        "0 0.55449000 0.27977333 0.10450000 0.48765333",
+        "6 0.02329000 0.38082667 0.00486000 0.02730667",
+        "6 0.03327000 0.36468000 0.00690000 0.04237333",
+        "6 0.01328000 0.38358667 0.01524000 0.03101333"
+      ],
+      "photographer": "dionhinchcliffe",
+      "title": "Getting some great tastes of wine at Doukenie winery this afternoon"
+    },
+    {
+      "file": "000000337177.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY-SA 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000337177.jpg",
+      "photographer_page": "https://www.flickr.com/photos/projector/2550270172/",
+      "annotations": [
+        "0 0.52577344 0.33034038 0.41432813 0.66068075",
+        "6 0.06048437 0.82633803 0.02165625 0.18384977",
+        "6 0.93719531 0.92435446 0.12507812 0.05847418"
+      ],
+      "photographer": "a-b-b",
+      "title": "at work"
+    },
+    {
+      "file": "000000345225.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000345225.jpg",
+      "photographer_page": "https://www.flickr.com/photos/91059873@N06/8346440477/",
+      "annotations": [
+        "0 0.19008316 0.49480469 0.38016632 0.98442188",
+        "6 0.70378378 0.77505469 0.23758836 0.09285938"
+      ],
+      "photographer": "JLKnoxville",
+      "title": "Thank a teacher cake 2"
+    },
+    {
+      "file": "000000347957.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000347957.jpg",
+      "photographer_page": "https://www.flickr.com/photos/pasfam/365624482/",
+      "annotations": [
+        "6 0.23571875 0.90586719 0.07239583 0.02051562"
+      ],
+      "photographer": "Paul Schultz",
+      "title": "Bathroom Door After Trim"
+    },
+    {
+      "file": "000000381257.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000381257.jpg",
+      "photographer_page": "https://www.flickr.com/photo.gne?id=3585066219",
+      "annotations": [
+        "6 0.65797656 0.36633803 0.20917188 0.09431925",
+        "6 0.07179688 0.24543427 0.13575000 0.05762911",
+        "6 0.15302344 0.31564554 0.03482813 0.09377934",
+        "6 0.05853906 0.23719484 0.11707813 0.05481221",
+        "6 0.52626562 0.30865023 0.16337500 0.14180751",
+        "6 0.31616406 0.21568075 0.07779687 0.03347418",
+        "6 0.33151562 0.21242958 0.10831250 0.03856808",
+        "6 0.62623437 0.33723005 0.19831250 0.09563380",
+        "6 0.50561719 0.30306338 0.13023437 0.11382629"
+      ]
+    },
+    {
+      "file": "000000406681.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000406681.jpg",
+      "photographer_page": "https://www.flickr.com/photos/oceanyamaha/367056116/",
+      "annotations": [
+        "0 0.80425000 0.50000000 0.39150000 1.00000000",
+        "0 0.10896094 0.37509368 0.13432812 0.70245902",
+        "0 0.07196875 0.36685012 0.14093750 0.72358314",
+        "6 0.02400781 0.83454333 0.04801562 0.02552693",
+        "6 0.51580469 0.86790398 0.08929687 0.04653396"
+      ],
+      "photographer": "ocean yamaha",
+      "title": "070122_mg_5685.jpg"
+    },
+    {
+      "file": "000000421231.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000421231.jpg",
+      "photographer_page": "https://www.flickr.com/photos/philhawksworth/2290030007/",
+      "annotations": [
+        "0 0.50562622 0.56067969 0.98874755 0.83820313",
+        "6 0.72212329 0.08300000 0.02045010 0.06106250"
+      ],
+      "photographer": "Phil Hawksworth",
+      "title": "Birthday cake"
+    },
+    {
+      "file": "000000422255.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY-SA 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000422255.jpg",
+      "photographer_page": "https://www.flickr.com/photos/benchun/3111493410/",
+      "annotations": [
+        "0 0.24085938 0.60398958 0.48171875 0.79202083",
+        "0 0.72601562 0.59425000 0.54796875 0.76750000",
+        "0 0.18581250 0.08783333 0.20946875 0.16891667",
+        "0 0.07345312 0.12010417 0.14378125 0.23866667",
+        "0 0.94656250 0.12350000 0.10687500 0.13487500",
+        "0 0.95612500 0.23771875 0.08775000 0.07093750",
+        "0 0.89981250 0.07667708 0.20037500 0.15335417",
+        "2 0.86510938 0.26194792 0.19075000 0.25802083",
+        "2 0.40987500 0.08319792 0.04615625 0.06572917",
+        "4 0.46632031 0.58550000 0.32642187 0.45595833",
+        "4 0.29482812 0.11936458 0.20525000 0.17793750",
+        "4 0.77277344 0.12606250 0.08567187 0.11141667",
+        "4 0.76696094 0.09209375 0.11804688 0.12381250",
+        "2 0.29619531 0.37036458 0.08954687 0.25468750",
+        "6 0.93039844 0.19988542 0.01701562 0.08931250"
+      ],
+      "photographer": "Ben Chun",
+      "title": "Audacity"
+    },
+    {
+      "file": "000000423488.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000423488.jpg",
+      "photographer_page": "https://www.flickr.com/photos/vmiramontes/3202221459/",
+      "annotations": [
+        "5 0.33078906 0.57005208 0.04926563 0.02918750",
+        "4 0.54345312 0.51636458 0.17946875 0.21218750",
+        "6 0.88586719 0.38975000 0.00595312 0.02912500",
+        "6 0.88939844 0.60850000 0.01326563 0.03208333"
+      ],
+      "photographer": "vmiramontes",
+      "title": "Office Space 011609"
+    },
+    {
+      "file": "000000444664.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000444664.jpg",
+      "photographer_page": "https://www.flickr.com/photos/petyosi/3029803540/",
+      "annotations": [
+        "0 0.95024219 0.90509375 0.09951563 0.18927083",
+        "3 0.18750000 0.13626042 0.18243750 0.27027083",
+        "4 0.64550781 0.52659375 0.58989063 0.75731250",
+        "3 0.94045313 0.08652083 0.10112500 0.12808333",
+        "3 0.90214063 0.27405208 0.19571875 0.16847917",
+        "5 0.50832813 0.17065625 0.15271875 0.08502083",
+        "6 0.97236719 0.52783333 0.04282812 0.03195833",
+        "6 0.46781250 0.97070833 0.03906250 0.05800000"
+      ],
+      "photographer": "petyosi",
+      "title": "Tools of the trade - mac book pro"
+    },
+    {
+      "file": "000000462461.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000462461.jpg",
+      "photographer_page": "https://www.flickr.com/photos/epac_island/338916108/",
+      "annotations": [
+        "6 0.61776000 0.72064639 0.01340000 0.33558935",
+        "6 0.64162000 0.72136882 0.01684000 0.26866920",
+        "6 0.67817000 0.79294677 0.01094000 0.16026616",
+        "6 0.66117000 0.72482890 0.01686000 0.26958175",
+        "6 0.59818000 0.72169202 0.01240000 0.28239544"
+      ],
+      "photographer": "Mon Quixote",
+      "title": "contents of my bag today"
+    },
+    {
+      "file": "000000481157.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000481157.jpg",
+      "photographer_page": "https://www.flickr.com/photo.gne?id=1702893",
+      "annotations": [
+        "0 0.25787000 0.33284000 0.50562000 0.65618667",
+        "6 0.31971000 0.42044000 0.00982000 0.06333333"
+      ]
+    },
+    {
+      "file": "000000484151.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY-SA 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000484151.jpg",
+      "photographer_page": "https://www.flickr.com/photos/krcla/3507934515/",
+      "annotations": [
+        "5 0.24851562 0.54190625 0.04962500 0.07577083",
+        "5 0.63696094 0.45091667 0.04073437 0.06108333",
+        "5 0.60366406 0.86255208 0.25520312 0.19314583",
+        "5 0.39610937 0.41913542 0.03318750 0.02939583",
+        "0 0.78710938 0.50851042 0.42578125 0.95535417",
+        "0 0.32167187 0.43848958 0.17268750 0.39502083",
+        "0 0.78800781 0.60135417 0.30573437 0.28379167",
+        "0 0.16396094 0.53198958 0.32792188 0.63452083",
+        "3 0.47661719 0.52663542 0.06507812 0.10331250",
+        "0 0.85112500 0.75730208 0.16515625 0.13931250",
+        "0 0.75737500 0.44125000 0.07521875 0.12700000",
+        "0 0.12032031 0.36937500 0.24064062 0.42912500",
+        "5 0.22098438 0.38800000 0.03384375 0.02079167",
+        "3 0.61046875 0.54644792 0.06346875 0.10081250",
+        "6 0.34758594 0.66629167 0.13101562 0.00779167",
+        "6 0.81575781 0.98816667 0.06657813 0.02366667"
+      ],
+      "photographer": "Korean Resource Center 민족학교",
+      "title": "FIRM Cell Rapid Response Network 4-28-09"
+    },
+    {
+      "file": "000000488375.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000488375.jpg",
+      "photographer_page": "https://www.flickr.com/photos/usagapg/8433136416/",
+      "annotations": [
+        "0 0.26950000 0.55964706 0.39009375 0.84752941",
+        "0 0.84771875 0.49591765 0.30456250 0.95950588",
+        "0 0.87894531 0.10620000 0.09117188 0.16651765",
+        "0 0.67528125 0.54617647 0.10918750 0.49550588",
+        "3 0.47600000 0.38214118 0.00962500 0.01407059",
+        "6 0.48438281 0.67503529 0.04685938 0.02729412",
+        "6 0.46428906 0.66208235 0.01292187 0.00477647"
+      ],
+      "photographer": "Aberdeen Proving Ground",
+      "title": "Learn how to ski"
+    },
+    {
+      "file": "000000489195.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000489195.jpg",
+      "photographer_page": "https://www.flickr.com/photos/donabelandewen/7219580304/",
+      "annotations": [
+        "0 0.31561719 0.49584728 0.62479688 0.98709205",
+        "6 0.68621875 0.89468619 0.01106250 0.03485356"
+      ],
+      "photographer": "ewen and donabel",
+      "title": "Wine tasting in Temecula"
+    },
+    {
+      "file": "000000510320.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000510320.jpg",
+      "photographer_page": "https://www.flickr.com/photos/themarmot/3251914121/",
+      "annotations": [
+        "3 0.43736719 0.63052778 0.02464062 0.04605556",
+        "3 0.44459375 0.54258333 0.02134375 0.04161111",
+        "6 0.54728125 0.64812500 0.02421875 0.01847222",
+        "6 0.49583594 0.49143056 0.01029687 0.03269444"
+      ],
+      "photographer": "The Marmot",
+      "title": "Time to Give Up"
+    },
+    {
+      "file": "000000511432.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000511432.jpg",
+      "photographer_page": "https://www.flickr.com/photos/charclam/5635006927/",
+      "annotations": [
+        "3 0.70803125 0.50449219 0.30277083 0.23457812",
+        "6 0.08010417 0.45487500 0.15183333 0.15359375",
+        "6 0.36010417 0.28448438 0.04487500 0.10756250",
+        "6 0.24825000 0.23721875 0.04645833 0.13778125"
+      ],
+      "photographer": "charclam",
+      "title": "Lam_pincushionpills_hires"
+    },
+    {
+      "file": "000000516008.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000516008.jpg",
+      "photographer_page": "https://www.flickr.com/photos/cimatti/6982311426/",
+      "annotations": [
+        "4 0.61106250 0.34536611 0.42303125 0.54801255",
+        "6 0.32048438 0.47582636 0.09146875 0.04600418"
+      ],
+      "photographer": "Alessandra Cimatti",
+      "title": "new improved workspace"
+    },
+    {
+      "file": "000000526321.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY-SA 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000526321.jpg",
+      "photographer_page": "https://www.flickr.com/photos/candelabrumdanse/2339005265/",
+      "annotations": [
+        "5 0.50916000 0.66675676 0.04700000 0.11717718",
+        "4 0.37341000 0.62472973 0.28286000 0.27864865",
+        "6 0.12930000 0.17450450 0.00576000 0.07147147",
+        "6 0.14378000 0.18460961 0.00496000 0.05060060"
+      ],
+      "photographer": "Kolin Toney",
+      "title": "My Desk"
+    },
+    {
+      "file": "000000537270.jpg",
+      "split": "train",
+      "lvis_split": "val",
+      "license": "CC BY-SA 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/val2017/000000537270.jpg",
+      "photographer_page": "https://www.flickr.com/photos/krcla/3507935487/",
+      "annotations": [
+        "5 0.60303906 0.51810417 0.07995313 0.14095833",
+        "5 0.79335156 0.39919792 0.06639063 0.08110417",
+        "0 0.45168750 0.43386458 0.44493750 0.84493750",
+        "0 0.67517187 0.38590625 0.26065625 0.59193750",
+        "0 0.36489063 0.49663542 0.72978125 0.98427083",
+        "3 0.90261719 0.56594792 0.11898437 0.17181250",
+        "5 0.61775000 0.92178125 0.18468750 0.15643750",
+        "6 0.74331250 0.90266667 0.25559375 0.08908333"
+      ],
+      "photographer": "Korean Resource Center 민족학교",
+      "title": "FIRM Cell Rapid Response Network 4-28-09 (1)"
+    },
+    {
+      "file": "000000547336.jpg",
+      "split": "val",
+      "lvis_split": "val",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/val2017/000000547336.jpg",
+      "photographer_page": "https://www.flickr.com/photos/juliejordanscott/5495465828/",
+      "annotations": [
+        "5 0.29615625 0.92682292 0.05784375 0.06864583",
+        "0 0.44604687 0.48285417 0.58012500 0.86108333",
+        "3 0.29003906 0.84876042 0.06598437 0.11310417",
+        "2 0.73310937 0.93355208 0.10471875 0.10810417",
+        "6 0.30850781 0.45606250 0.04214063 0.11983333"
+      ],
+      "photographer": "juliejordanscott",
+      "title": "March 3 132"
+    },
+    {
+      "file": "000000551956.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000551956.jpg",
+      "photographer_page": "https://www.flickr.com/photo.gne?id=3242116824",
+      "annotations": [
+        "5 0.26716000 0.31273333 0.02792000 0.10893333",
+        "5 0.66842000 0.36806667 0.04656000 0.03464000",
+        "3 0.61341000 0.32818667 0.05230000 0.09765333",
+        "6 0.63348000 0.29186667 0.01456000 0.01984000",
+        "6 0.61155000 0.32220000 0.04430000 0.07533333"
+      ]
+    },
+    {
+      "file": "000000557926.jpg",
+      "split": "train",
+      "lvis_split": "train",
+      "license": "CC BY 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000557926.jpg",
+      "photographer_page": "https://www.flickr.com/photos/chiacomo/2449825837/",
+      "annotations": [
+        "0 0.53885156 0.52364583 0.28717187 0.71620833",
+        "0 0.92989062 0.55560417 0.14021875 0.72166667",
+        "6 0.57224219 0.50427083 0.00557812 0.04158333"
+      ],
+      "photographer": "NathanReed",
+      "title": "P4250210"
+    },
+    {
+      "file": "000000559366.jpg",
+      "split": "val",
+      "lvis_split": "val",
+      "license": "CC BY-SA 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/train2017/000000559366.jpg",
+      "photographer_page": "https://www.flickr.com/photos/jasongrote/78234543/",
+      "annotations": [
+        "3 0.92578906 0.67937500 0.05226563 0.12841667",
+        "4 0.46210937 0.78245833 0.33012500 0.18291667",
+        "6 0.59565625 0.44533333 0.00806250 0.06000000",
+        "6 0.62256250 0.47073958 0.01556250 0.07768750",
+        "6 0.57017187 0.47409375 0.01212500 0.06539583",
+        "6 0.57682812 0.45556250 0.00653125 0.03050000",
+        "6 0.61461719 0.47838542 0.02442187 0.06743750",
+        "6 0.57989062 0.48077083 0.00615625 0.05691667",
+        "6 0.58613281 0.44214583 0.00951562 0.03662500",
+        "6 0.60615625 0.46966667 0.02096875 0.07820833",
+        "6 0.58565625 0.47871875 0.00768750 0.06564583",
+        "6 0.59838281 0.43972917 0.00529687 0.04979167",
+        "6 0.61373437 0.42730208 0.00578125 0.01718750",
+        "6 0.59715625 0.48460417 0.01828125 0.05441667",
+        "6 0.58235938 0.42950000 0.00231250 0.01520833",
+        "6 0.57591406 0.48194792 0.00570312 0.02710417",
+        "6 0.60572656 0.44089583 0.00673438 0.03975000",
+        "6 0.59029687 0.44075000 0.00600000 0.04191667"
+      ],
+      "photographer": "Jason Grote",
+      "title": "Cats on desk 2"
+    },
+    {
+      "file": "000000570471.jpg",
+      "split": "val",
+      "lvis_split": "val",
+      "license": "CC BY-SA 2.0",
+      "source": "https://s3.amazonaws.com/images.cocodataset.org/val2017/000000570471.jpg",
+      "photographer_page": "https://www.flickr.com/photos/meggers/4421878446/",
+      "annotations": [
+        "0 0.56441333 0.49438000 0.87117333 0.98876000",
+        "3 0.13732000 0.54158000 0.14706667 0.16808000",
+        "0 0.76517333 0.34157000 0.46965333 0.33258000",
+        "6 0.11174667 0.38404000 0.01384000 0.03956000",
+        "6 0.06528000 0.39059000 0.02005333 0.04118000"
+      ],
+      "photographer": "megarooo",
+      "title": "Happy Birthday Dad 017"
+    }
+  ]
+}

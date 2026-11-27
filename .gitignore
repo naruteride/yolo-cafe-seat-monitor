@@ -221,3 +221,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local camera and dashboard setup
+.DS_Store
+.env.local
+.vercel/
+runs/
+*.cache

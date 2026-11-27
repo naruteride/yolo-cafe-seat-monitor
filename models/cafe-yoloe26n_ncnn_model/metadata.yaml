@@ -1,0 +1,26 @@
+description: "Ultralytics YOLOe-26n model "
+author: Ultralytics
+date: "2026-11-27T15:06:35.203466+09:00"
+version: "8.4.220"
+license: AGPL-3.0 License (https://ultralytics.com/license)
+docs: https://docs.ultralytics.com
+stride: 32
+task: detect
+head: YOLOEDetect
+batch: 1
+imgsz:
+- 512
+- 512
+names:
+  0: person
+  1: backpack
+  2: handbag
+  3: cup
+  4: laptop
+  5: cell phone
+  6: pencil
+  7: pencil
+args:
+  quantize: 16
+channels: 3
+end2end: false
